@@ -27,14 +27,6 @@ function HeartPosition(container /** Parent Container **/){
 
   POSITIONS.push([x,y]);
 
-  /*
-  if(POSITIONS.length==0){
-    POSITIONS.push([x,y]);
-  }else{
-    isHeartOverlap(x,y);
-  }
-  */
-
   return {x, y};
 }
 
@@ -47,18 +39,6 @@ function isHeartOverlap(newx, newy){
     var y = pos[1];
 
     console.log('OLD: ' + x + ',' + y + ' / NEW: ' + newx + ',' + newy);
-
-    //if( (newx > x && (x + HeartSizeX <= newx)) && (newy > y && (y + HeartSizeY <= newy)) ){
-    //checking...
-    /*
-    if(){
-      console.log('Overlap');
-      return true;
-    }else{
-      console.log('Not Overlap');
-      return false;
-    }
-    */
   }
 }
 
@@ -96,58 +76,9 @@ function init(){
             'background-size': '100%'
         }); // css
 
-
-        /*
-    .click(function () {
-        $(this).remove();
-    })
-        .hide()
-        .slideToggle(300)
-        .delay(2500)
-        .slideToggle(300)
-        .queue(function () {
-        $(this).remove();
-        */
-    //});
-
-    //console.log($(d));
-
   }
 }
 
-function handleCardDrop( event, ui ) {
-  var slotNumber = $(this).data( 'number' );
-  var cardNumber = ui.draggable.data( 'number' );
-
-  // If the card was dropped to the correct slot,
-  // change the card colour, position it directly
-  // on top of the slot, and prevent it being dragged
-  // again
-
-  if ( slotNumber == cardNumber ) {
-    ui.draggable.addClass( 'correct' );
-    ui.draggable.draggable( 'disable' );
-    $(this).droppable( 'disable' );
-    ui.draggable.position( { of: $(this), my: 'left top', at: 'left top' } );
-    ui.draggable.draggable( 'option', 'revert', false );
-    correctCards++;
-  }
-
-  // If all the cards have been placed correctly then display a message
-  // and reset the cards for another go
-
-  if ( correctCards == 10 ) {
-    $('#successMessage').show();
-    $('#successMessage').animate( {
-      left: '380px',
-      top: '200px',
-      width: '400px',
-      height: '100px',
-      opacity: 1
-    } );
-  }
-
-}
 
 $(function(){ // document ready
   $('.canDrag').draggable({
