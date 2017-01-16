@@ -1,4 +1,45 @@
 var correctCards = 0;
+
+var HEARTS = [
+  'images/heart-red.png',
+  'images/heart-yellow.png',
+  'images/heart-purple.png',
+  'images/heart-green.png',
+  'images/heart-blue.png'
+];
+
+var POSITIONS = [];
+
+var HeartSizeX = 100;
+var HeartSizeY = 100;
+
+var minHearts = 3;
+var maxHearts = 4;
+
+function randomIntFromInterval(min,max)
+{
+    return Math.floor(Math.random()*(max-min+1)+min);
+}
+
+function HeartPosition(container /** Parent Container **/){
+
+  var w = $(container).width();
+  var h = $(container).height();
+
+  /// Random x,y in Parent's div area
+  var x = (Math.random() * (w)).toFixed();
+  var y = (Math.random() * (h)).toFixed();
+
+  POSITIONS.push([x,y]);
+
+  return {x, y};
+}
+
+function randomHeart(){
+  return Math.floor((Math.random()*HEARTS.length));
+}
+
+///////////////////////////////////
 $( init );
 
 function init() {
@@ -21,6 +62,42 @@ function init() {
   var numbers = [ 1, 2, 3, 4 ];
   numbers.sort( function() { return Math.random() - .5 } );
 
+  var HeartsNum = randomIntFromInterval(minHearts, maxHearts);
+  for(i=1; i<=HeartsNum; i++){
+    var pos = HeartPosition($('#cardPile'));
+    var posx = pos['x'];
+    var posy = pos['y'];
+    var heart = randomHeart();
+    var imgHeart = HEARTS[heart];
+    //console.log(HEARTS[randomHeart()]);
+    //console.log(posx + "::" + posy);
+
+    d = document.createElement('div');
+    $(d)//.addClass('canDrag')
+        //.html(text)
+        .appendTo($("#cardPile")) //main div
+        .css({
+            'display': 'block',
+            'position': 'absolute',
+            'top': posy + 'px',
+            'left': posx + 'px',
+            'width': '60px',
+            'height': '60px',
+            'background':"url('" + imgHeart + "')",
+            'background-size': '100%'
+        })
+        .draggable( {
+          accept: '#cardPile div',
+          hoverClass: 'hovered',
+          /*drop: handleCardDrop*/
+        } );
+
+        ; // css
+
+
+  }
+
+  /*
   for ( var i=0; i< numbers.length; i++ ) {
     $('<div>' + numbers[i] + '</div>').data( 'number', numbers[i] ).attr( 'id', 'card'+numbers[i] ).appendTo( '#cardPile' ).draggable( {
       containment: '#content',
@@ -29,11 +106,12 @@ function init() {
       revert: true
     } );
   }
+  */
 
   // Create the card slots
   var words = [ 'one', 'two', 'three', 'four'];
   for ( var i=1; i<=numbers.length; i++ ) {
-    $('<div class=\'heart-trans\'>' + words[i-1] + '</div>').data( 'number', i ).appendTo( '#cardSlots' ).droppable( {
+    $('<div class=\'heart-trans\'></div>').data( 'number', i ).appendTo( '#cardSlots' ).droppable( {
       accept: '#cardPile div',
       hoverClass: 'hovered',
       drop: handleCardDrop
@@ -44,8 +122,10 @@ function init() {
 
 
 function handleCardDrop( event, ui ) {
+
   var slotNumber = $(this).data( 'number' );
   var cardNumber = ui.draggable.data( 'number' );
+
 
   // If the card was dropped to the correct slot,
   // change the card colour, position it directly

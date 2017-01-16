@@ -51,8 +51,8 @@ function init(){
   var maxHearts = 4;
 
   /// Random for number of Hearts
-  var Hearts = randomIntFromInterval(minHearts, maxHearts);
-  for(i=1; i<=Hearts; i++){
+  var HeartsNum = randomIntFromInterval(minHearts, maxHearts);
+  for(i=1; i<=HeartsNum; i++){
     var pos = HeartPosition($('#maindiv'));
     var posx = pos['x'];
     var posy = pos['y'];
